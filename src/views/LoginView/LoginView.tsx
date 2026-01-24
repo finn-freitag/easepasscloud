@@ -66,7 +66,8 @@ export default function LoginView(props: ViewProps) {
                     caption="Password:" 
                     password
                     value={password}
-                    onChange={(p)=>setPassword(p)} />
+                    onChange={(p)=>setPassword(p)}
+                    onKeyDown={(e)=>{if(e.key === 'Enter')login()}}/>
                 <div className={styles.buttonGroup}>
                     <Button
                         caption="Login"

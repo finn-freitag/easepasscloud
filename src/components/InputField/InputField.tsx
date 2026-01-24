@@ -4,6 +4,7 @@ import styles from "./InputField.module.scss";
 type InputFieldProps = {
     value?: string;
     onChange: (value: string) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
     caption?: string;
     password?: boolean;
@@ -17,6 +18,7 @@ export default function InputField(props: InputFieldProps) {
                 type={props.password === true ? "password" : "text"}
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
+                onKeyDown={props.onKeyDown}
                 placeholder={props.placeholder}
                 className={styles.inputField}
             />
