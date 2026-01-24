@@ -65,3 +65,19 @@ export async function RemoveAllExpiredSessionTokens() {
         }
     });
 }
+
+export async function GetAllActiveSessions(): Promise<{ token: string, session: Session }[]> {
+    let activeSessions: { token: string, session: Session }[] = [];
+    let sessionFiles = await readdir("./data/sessiontokens/");
+    for (let sessionFile of sessionFiles) {
+        let token = sessionFile.replace(".token", "");
+        let valid = await CheckSessionToken(token);
+        if (valid) {
+            let sessionInfo = await GetSessionInfo(token);
+            if (sessionInfo) {
+                activeSessions.push({ token: token, session: sessionInfo });
+            }
+        }
+    }
+    return activeSessions;
+}

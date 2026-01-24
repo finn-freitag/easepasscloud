@@ -1,1 +1,1 @@
-export const DefaultSessionTimeoutHours = 24;
+export const DefaultSessionTimeoutHours = 3;

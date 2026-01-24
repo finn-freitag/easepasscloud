@@ -6,6 +6,7 @@ import { DashboardViewProps } from "../dashboardViews/dashboardViewProps/Dashboa
 import Button from "@/components/Button/Button";
 import { DatabaseDashboardView } from "../dashboardViews/DatabaseDashboardView/DatabaseDashboardView";
 import ServerConfigDashboardView from "../dashboardViews/ServerConfigDashboadView/ServerConfigDashboardView";
+import SessionDashboardView from "../dashboardViews/SessionDashboardView/SessionDashboardView";
 
 export default function DashboardView(props: ViewProps) {
     const [dashboardViewProps, setDashboardViewProps] = useState<DashboardViewProps|null>(null);
@@ -55,6 +56,7 @@ export default function DashboardView(props: ViewProps) {
                             <p>Select an option from the menu to get started.</p>
                         </div>,
                         "databases": <DatabaseDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
+                        "sessions": <SessionDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "server": <ServerConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                     }[currentDashboardView]}
                 </div>
