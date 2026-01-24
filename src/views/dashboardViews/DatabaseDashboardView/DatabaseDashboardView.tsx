@@ -1,3 +1,4 @@
+'use client';
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
 import { Database } from "@/backend/models/Database";

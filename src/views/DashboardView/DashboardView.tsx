@@ -1,10 +1,11 @@
-import { User } from "@/backend/models/User";
+'use client';
 import { ViewProps } from "../viewProps/ViewProps";
 import { useEffect, useState } from "react";
 import styles from "./DashboardView.module.scss";
 import { DashboardViewProps } from "../dashboardViews/dashboardViewProps/DashboardViewProps";
 import Button from "@/components/Button/Button";
 import { DatabaseDashboardView } from "../dashboardViews/DatabaseDashboardView/DatabaseDashboardView";
+import ServerConfigDashboardView from "../dashboardViews/ServerConfigDashboadView/ServerConfigDashboardView";
 
 export default function DashboardView(props: ViewProps) {
     const [dashboardViewProps, setDashboardViewProps] = useState<DashboardViewProps|null>(null);
@@ -54,6 +55,7 @@ export default function DashboardView(props: ViewProps) {
                             <p>Select an option from the menu to get started.</p>
                         </div>,
                         "databases": <DatabaseDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
+                        "server": <ServerConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                     }[currentDashboardView]}
                 </div>
             </div>
