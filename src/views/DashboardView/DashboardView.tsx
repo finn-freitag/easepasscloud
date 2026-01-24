@@ -32,7 +32,7 @@ export default function DashboardView(props: ViewProps) {
                 });
         }, 20000);
         return () => clearInterval(interval);
-    },[]);
+    },[dashboardViewProps]);
 
     function logout() {
         fetch("/api/logout", {method: "POST",headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: dashboardViewProps?.sessionToken})})
