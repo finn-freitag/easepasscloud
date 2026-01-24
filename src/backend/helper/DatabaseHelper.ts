@@ -2,6 +2,14 @@ import { readdir, readFile, writeFile } from "fs/promises";
 import { Database } from "../models/Database";
 import { GetAllUsers } from "./UserHelpers";
 
+export async function GetAllDatabases(): Promise<Database[]> {
+    let files = await readdir("./data/databasemetadata/");
+    let dbMetadata: Database[] = await Promise.all(files.map(async f => {
+        return JSON.parse(await readFile(`./data/databasemetadata/${f}`, "utf-8")) as Database;
+    }));
+    return dbMetadata;
+}
+
 export async function GetDatabasesOfUser(username: string): Promise<Database[]> {
     let users = await GetAllUsers();
     let user = users.find(u => u.username === username);

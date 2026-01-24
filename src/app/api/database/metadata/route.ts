@@ -16,7 +16,10 @@ export async function POST(req: NextRequest){
 
     let user = await GetUserByUsername(sessionInfo.username);
 
-    if(user?.databaseIDs.includes(body.database.id) === false && !user?.admin)
+    if(!user)
+        return NextResponse.json({success: false, message: "User not found."}, {status: 404});
+
+    if(user.databaseIDs.includes(body.database.id) === false && !user.admin)
         return NextResponse.json({success: false, message: "User does not have access to this database."}, {status: 403});
 
     let existing = await GetDatabase(body.database.id);

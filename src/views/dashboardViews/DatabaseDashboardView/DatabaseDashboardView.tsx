@@ -157,7 +157,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                     <div style={{width:"3rem"}}></div>
                 </div>
             </div>
-            {databases.map((db,i) => (
+            {databases.filter(x=>props.user.databaseIDs.includes(x.id)).map((db,i) => (
                 <div key={i} className={styles.databaseItem}>
                     <div>{db.name}</div>
                     <div className={styles.databaseItemRight}>
@@ -191,6 +191,17 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                     </div>
                 </Overlay>
             </form>
+            {databases.filter(x=>!props.user.databaseIDs.includes(x.id)).length > 0 && <div className={styles.adminHint}>As admin you can also see databases of other users:</div>}
+            {databases.filter(x=>!props.user.databaseIDs.includes(x.id)).map((db,i) => (
+                <div key={i} className={styles.databaseItem}>
+                    <div>{db.name}</div>
+                    <div className={styles.databaseItemRight}>
+                        <div>{new Date(db.lastModified).toLocaleDateString()}</div>
+                        <div>{db.lockable ? (db.locked ? "locked" : "not locked") : "not lockable"}</div>
+                        <Button caption="⋮" onClick={() => setEditDatabase(db)} />
+                    </div>
+                </div>
+            ))}
             <Overlay visible={editDatabase !== null} onSideClick={() => {setEditDatabase(null); setDbEdited(false); setDeleteConfirmation(false);}}>
                 <div className={styles.editDatabaseContainer}>
                     <h2>Edit Database: {editDatabase?.name}</h2>
