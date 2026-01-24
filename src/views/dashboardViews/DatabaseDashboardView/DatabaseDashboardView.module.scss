@@ -1,0 +1,57 @@
+.buttons {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlayContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.databases {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+}
+
+.databaseItem {
+    padding: 0.5rem;
+    background-color: var(--background);
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.databaseItemRight {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 50%;
+}
+
+.editDatabaseContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.editDbButtons {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
