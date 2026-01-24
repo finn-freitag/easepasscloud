@@ -1,7 +1,6 @@
 'use client';
-import BasePage from "@/components/BasePage/BasePage";
 import styles from "./page.module.scss";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { InitializationView } from "@/views/InitializationView/InitializationView";
 import LoginView from "@/views/LoginView/LoginView";
 import Overlay from "@/components/Overlay/Overlay";
@@ -33,26 +32,24 @@ export default function Home() {
     }
 
     return (
-        <BasePage>
-            <div className={styles.page}>
-                <div className={styles.header}>
-                    {["none","initialization","login"].includes(currentView) && <>
-                        <img src="/Icon.png" alt="Ease Pass Cloud Logo" className={styles.logo} />
-                        <h1 className={styles.headline}>Ease Pass Cloud</h1>
-                    </>}
-                    {{
-                        "none": "Loading...",
-                        "initialization": <InitializationView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
-                        "login": <LoginView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
-                        "dashboard": <DashboardView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
-                    }[currentView]}
-                </div>
-                <Overlay visible={infoMessage !== ""} onSideClick={() => setInfoMessage("")} >
-                    <p>{infoMessage}</p>
-                    <br />
-                    <Button caption="OK" onClick={() => setInfoMessage("")} />
-                </Overlay>
+        <div className={styles.page}>
+            <div className={styles.header}>
+                {["none","initialization","login"].includes(currentView) && <>
+                    <img src="/Icon.png" alt="Ease Pass Cloud Logo" className={styles.logo} />
+                    <h1 className={styles.headline}>Ease Pass Cloud</h1>
+                </>}
+                {{
+                    "none": "Loading...",
+                    "initialization": <InitializationView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
+                    "login": <LoginView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
+                    "dashboard": <DashboardView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
+                }[currentView]}
             </div>
-        </BasePage>
+            <Overlay visible={infoMessage !== ""} onSideClick={() => setInfoMessage("")} >
+                <p>{infoMessage}</p>
+                <br />
+                <Button caption="OK" onClick={() => setInfoMessage("")} />
+            </Overlay>
+        </div>
     );
 }

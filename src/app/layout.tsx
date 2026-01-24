@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
 import { getServerConfig } from "@/backend/helper/ServerConfigHelper";
+import styles from "@/app/layout.module.scss";
 
 export async function generateMetadata(): Promise<Metadata> {
     let serverConfig = await getServerConfig();
@@ -29,15 +30,35 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    let serverConfig = await getServerConfig();
     return (
         <html lang="en">
             <body>
-                {children}
+                <div className={styles.acrylicContainer}>
+                    <div className={`${styles.ball} ${styles.ball1}`}></div>
+                    <div className={`${styles.ball} ${styles.ball2}`}></div>
+                    <div className={`${styles.ball} ${styles.ball3}`}></div>
+                </div>
+
+                <div className={styles.content}>
+                    <div className={styles.innerContent}>
+                        {children}
+                    </div>
+                </div>
+
+                <div className={styles.footer}>
+                    {serverConfig && serverConfig.linkToImprint && (
+                        <a href={serverConfig.linkToImprint} target="_blank" rel="noopener noreferrer">Imprint</a>
+                    )}
+                    {serverConfig && serverConfig.linkToPrivacyPolicy && (
+                        <a href={serverConfig.linkToPrivacyPolicy} target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                    )}
+                </div>
             </body>
         </html>
     );

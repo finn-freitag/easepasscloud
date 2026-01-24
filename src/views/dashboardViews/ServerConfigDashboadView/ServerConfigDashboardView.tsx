@@ -84,6 +84,22 @@ export default function ServerConfigDashboardView(props: DashboardViewProps) {
                         setServerConfig({ ...serverConfig, sessionTimeoutHours: parseInt(hours) });
                     }
                 }}/>
+            <InputField
+                caption="Link to imprint:"
+                value={serverConfig ? (serverConfig.linkToImprint ? serverConfig.linkToImprint : '') : ''}
+                onChange={(newValue) => {
+                    if (serverConfig) {
+                        setServerConfig({ ...serverConfig, linkToImprint: newValue });
+                    }
+                }}/>
+            <InputField
+                caption="Link to privacy policy:"
+                value={serverConfig ? (serverConfig.linkToPrivacyPolicy ? serverConfig.linkToPrivacyPolicy : '') : ''}
+                onChange={(newValue) => {
+                    if (serverConfig) {
+                        setServerConfig({ ...serverConfig, linkToPrivacyPolicy: newValue });
+                    }
+                }}/>
             <Button caption="Save Configuration" onClick={() => saveConfig() }/>
         </div>
     );

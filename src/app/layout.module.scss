@@ -59,3 +59,29 @@
     background-color: var(--backgroundAccent);
     padding: 2rem;
 }
+
+.footer {
+    position: fixed;
+    z-index: 100;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    color: var(--foreground);
+    width: 100%;
+    bottom: 0;
+}
+
+.footer a {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: 200ms;
+}
+
+.footer a:hover {
+    color: var(--Accent);
+    text-decoration: underline;
+}
