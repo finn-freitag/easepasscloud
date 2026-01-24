@@ -17,6 +17,23 @@ export default function DashboardView(props: ViewProps) {
             setDashboardViewProps({...(props.viewParameters as DashboardViewProps), setInfoMessage: props.setInfoMessage});
     }, [props.viewParameters]);
 
+    useEffect(()=>{
+        const interval = setInterval(()=>{
+            if(!dashboardViewProps) return;
+            fetch("/api/sessions/ping", {method: "POST",headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: dashboardViewProps?.sessionToken})})
+                .then(r=>r.json())
+                .then(data => {
+                    if(!data.success) {
+                        window.location.reload();
+                    }
+                })
+                .catch(() => {
+                    window.location.reload();
+                });
+        }, 20000);
+        return () => clearInterval(interval);
+    },[]);
+
     function logout() {
         fetch("/api/logout", {method: "POST",headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: dashboardViewProps?.sessionToken})})
             .then(r=>r.json())
