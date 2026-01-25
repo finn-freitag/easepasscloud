@@ -63,10 +63,16 @@ export default function EPConfigDashboardView(props: DashboardViewProps) {
                 caption="Save readonly offline copies"
                 value={saveReadonlyOfflineCopies}
                 onChange={setSaveReadonlyOfflineCopies}/>
-            <textarea
-                className={styles.textarea}
-                readOnly
-                value={jsonConfig}/>
+            <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                <textarea
+                    className={styles.textarea}
+                    readOnly
+                    value={jsonConfig}
+                    onClick={()=>navigator.clipboard.writeText(jsonConfig)} />
+                <div className={styles.hint} onClick={()=>navigator.clipboard.writeText(jsonConfig)}>
+                    Click the textarea to copy the config to clipboard.
+                </div>
+            </div>
         </div>
     );
 }
