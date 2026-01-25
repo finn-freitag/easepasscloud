@@ -93,6 +93,9 @@ export default function ProfileDashboardView(props: DashboardViewProps){
             <Button
                 caption="Update password"
                 onClick={updatePassword}/>
+            <div>
+                Hint: Do not store your Ease Pass Cloud credentials in a remote database of the same instance. If your access token expires or is revoked, you may lose access to your data.
+            </div>
         </div>
     );
 }
