@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     if (!sessionToken)
         return NextResponse.json({ success: false, message: "No session token provided." }, { status: 400 });
 
-    if(!CheckSessionToken(sessionToken))
+    if(!(await CheckSessionToken(sessionToken)))
         return NextResponse.json({ success: false, message: "Invalid session token." }, { status: 401 });
 
     let info = await GetSessionInfo(sessionToken);

@@ -57,13 +57,13 @@ export async function GetSessionOfUser(username: string): Promise<Session[]> {
 
 export async function RemoveAllExpiredSessionTokens() {
     let sessions = await readdir("./data/sessiontokens/");
-    sessions.forEach(async (sessionFile) => {
+    for (const sessionFile of sessions) {
         let token = sessionFile.replace(".token", "");
         let valid = await CheckSessionToken(token);
         if (!valid) {
             await InvalidateSessionToken(token);
         }
-    });
+    }
 }
 
 export async function GetAllActiveSessions(): Promise<{ token: string, session: Session }[]> {

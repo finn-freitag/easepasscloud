@@ -10,7 +10,7 @@ export async function POST(req: NextRequest){
     if(!body.databaseId || !body.sessionToken)
         return NextResponse.json({success: false, message: "Missing parameters."}, {status: 400});
 
-    if(!(CheckSessionToken(body.sessionToken)))
+    if(!(await CheckSessionToken(body.sessionToken)))
         return NextResponse.json({success: false, message: "Invalid session token."}, {status: 401});
 
     let username = (await GetSessionInfo(body.sessionToken))?.username;

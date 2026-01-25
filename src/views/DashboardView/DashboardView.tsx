@@ -7,6 +7,7 @@ import Button from "@/components/Button/Button";
 import { DatabaseDashboardView } from "../dashboardViews/DatabaseDashboardView/DatabaseDashboardView";
 import ServerConfigDashboardView from "../dashboardViews/ServerConfigDashboadView/ServerConfigDashboardView";
 import SessionDashboardView from "../dashboardViews/SessionDashboardView/SessionDashboardView";
+import ProfileDashboardView from "../dashboardViews/ProfileDashboardView/ProfileDashboardView";
 
 export default function DashboardView(props: ViewProps) {
     const [dashboardViewProps, setDashboardViewProps] = useState<DashboardViewProps|null>(null);
@@ -56,6 +57,7 @@ export default function DashboardView(props: ViewProps) {
                     <button className={`${styles.menuItem} ${currentDashboardView === "databases" ? styles.menuItemActive : ""}`} onClick={() => setCurrentDashboardView("databases")}>Databases</button>
                     <button className={`${styles.menuItem} ${currentDashboardView === "accessTokens" ? styles.menuItemActive : ""}`} onClick={() => setCurrentDashboardView("accessTokens")}>Access Tokens</button>
                     <button className={`${styles.menuItem} ${currentDashboardView === "easePassConfig" ? styles.menuItemActive : ""}`} onClick={() => setCurrentDashboardView("easePassConfig")}>Ease Pass Config</button>
+                    <button className={`${styles.menuItem} ${currentDashboardView === "profile" ? styles.menuItemActive : ""}`} onClick={() => setCurrentDashboardView("profile")}>Profile</button>
                     {dashboardViewProps?.user.admin && <>
                         <div style={{margin:"0.25rem 0"}}>Admin Area:</div>
                         <button className={`${styles.menuItem} ${currentDashboardView === "users" ? styles.menuItemActive : ""}`} onClick={() => setCurrentDashboardView("users")}>Users</button>
@@ -73,6 +75,7 @@ export default function DashboardView(props: ViewProps) {
                             <p>Select an option from the menu to get started.</p>
                         </div>,
                         "databases": <DatabaseDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
+                        "profile": <ProfileDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "sessions": <SessionDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "server": <ServerConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                     }[currentDashboardView]}

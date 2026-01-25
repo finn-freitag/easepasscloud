@@ -7,7 +7,7 @@ export async function POST(req: NextRequest){
     let body = await req.json();
     let sessionToken = body.sessionToken;
 
-    if(!CheckSessionToken(sessionToken))
+    if(!(await CheckSessionToken(sessionToken)))
         return NextResponse.json({success: false, message: "Invalid session token."}, {status: 401});
 
     let sessionData = await GetSessionInfo(sessionToken);

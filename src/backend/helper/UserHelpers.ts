@@ -26,8 +26,24 @@ export async function SaveUser(user: User): Promise<void> {
     await SaveAllUsers(users);
 }
 
+export async function UpdateUsername(oldUsername: string, newUsername: string): Promise<boolean> {
+    let users = await GetAllUsers();
+    let userIndex = users.findIndex(u=>u.username === oldUsername);
+    if(userIndex === -1)
+        return false;
+    users[userIndex].username = newUsername;
+    await SaveAllUsers(users);
+    return true;
+}
+
 export async function LoginUser(username: string, password: string): Promise<User|undefined> {
-    return (await GetAllUsers()).find(async u=>u.username === username && await VerifyArgon2(u.passwordHash, password));
+    let users = await GetAllUsers();
+    for (const u of users) {
+        if (u.username === username && await VerifyArgon2(u.passwordHash, password)) {
+            return u;
+        }
+    }
+    return undefined;
 }
 
 export async function RegisterUser(username: string, password: string): Promise<User|undefined> {
