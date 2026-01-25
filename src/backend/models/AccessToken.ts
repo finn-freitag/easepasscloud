@@ -2,7 +2,8 @@ export type AccessToken = {
     token: string;
     userID: string;
     databaseID: string;
-    expiresAt: Date;
+    expiresAt: Date|null;
     createdAt: Date;
     enabled: boolean;
+    readonly: boolean;
 }

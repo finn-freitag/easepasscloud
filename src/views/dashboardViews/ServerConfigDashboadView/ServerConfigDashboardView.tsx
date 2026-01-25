@@ -53,7 +53,7 @@ export default function ServerConfigDashboardView(props: DashboardViewProps) {
 
     return (
         <div className={styles.view}>
-            <h2>Server Configuration</h2>
+            <h2 style={{width:"100%",textAlign:"center"}}>Server Configuration</h2>
             <p>Manage server settings and configurations here.</p>
             <InputField
                 caption="Server Address:"
@@ -74,14 +74,10 @@ export default function ServerConfigDashboardView(props: DashboardViewProps) {
             <InputField
                 caption="Session Timeout (hours):"
                 value={serverConfig && serverConfig.sessionTimeoutHours ? serverConfig.sessionTimeoutHours.toString() : DefaultSessionTimeoutHours.toString()}
+                numeric
                 onChange={(newValue) => {
                     if (serverConfig) {
-                        let hours = "";
-                        let allowedChars = "0123456789";
-                        for(let i = 0; i < newValue.length; i++)
-                            if(allowedChars.includes(newValue[i])) 
-                                hours += newValue[i];
-                        setServerConfig({ ...serverConfig, sessionTimeoutHours: parseInt(hours) });
+                        setServerConfig({ ...serverConfig, sessionTimeoutHours: parseInt(newValue) })
                     }
                 }}/>
             <InputField

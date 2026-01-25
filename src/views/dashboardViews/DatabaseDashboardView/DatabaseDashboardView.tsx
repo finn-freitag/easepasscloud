@@ -8,6 +8,7 @@ import styles from "./DatabaseDashboardView.module.scss";
 import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
+import { DefaultAccessTokenExpiryDays } from "@/backend/DefaultValues";
 
 export function DatabaseDashboardView(props: DashboardViewProps) {
     const [databases, setDatabases] = useState<Database[]>([]);
@@ -20,6 +21,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
     const [editDatabase, setEditDatabase] = useState<Database|null>(null);
     const [dbEdited, setDbEdited] = useState(false);
     const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+    const [createAccessToken, setCreateAccessToken] = useState(true);
 
     useEffect(()=>{
         console.log("Loading databases...");
@@ -79,21 +81,51 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
         formData.append('databaseName', databaseName);
         formData.append('isLockable', isLockable ? "true" : "false");
 
-        try {
-            const response = await fetch('/api/database/userupload', {
+        fetch('/api/database/userupload', {
                 method: 'POST',
                 body: formData,
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    if(createAccessToken){
+                        createDBAccessToken(data.databaseID, new Date(Date.now() + DefaultAccessTokenExpiryDays*24*60*60*1000))
+                        .then(success=>{
+                            if(success)
+                                props.setInfoMessage('Database and access token created successfully. (Expiry: ' + DefaultAccessTokenExpiryDays + ' days)');
+                            else
+                                props.setInfoMessage('Database uploaded but failed to create access token.');
+                        });
+                    }else
+                        props.setInfoMessage('Database uploaded successfully.');
+                } else {
+                    props.setInfoMessage('Failed to upload database: ' + data.message);
+                }
+            })
+            .catch(() => {
+                props.setInfoMessage('Failed to upload database: Network error.');
             });
-
-            if (response.ok) {
-                props.setInfoMessage('Database upload successful! ✅');
-            } else {
-                props.setInfoMessage('Database upload failed ❌');
-            }
-        } catch (error) {
-            props.setInfoMessage('Error connecting to server.');
-        }
         reloadDatabases(!reloadDBTrigger);
+    }
+
+    async function createDBAccessToken(database: string, expiresAt: Date|null): Promise<boolean> {
+        let body = {
+            username: props.user.username,
+            databaseID: database,
+            expiresAt: expiresAt,
+            sessionToken: props.sessionToken
+        };
+        const response = await fetch("/api/accesstokens/create", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        if(data.success) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function editDatabaseSave() {
@@ -150,6 +182,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
 
     return (
         <div className={styles.databases}>
+            <h2 style={{width:"100%",textAlign:"center"}}>Databases</h2>
             <div className={styles.databaseItem}>
                 <strong>Database Name</strong>
                 <div className={styles.databaseItemRight}>
@@ -185,6 +218,10 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                             caption="is lockable"
                             value={isLockable}
                             onChange={setIsLockable} />
+                        <InputSwitch
+                            caption={"Create access token (" + DefaultAccessTokenExpiryDays + " days)"}
+                            value={createAccessToken}
+                            onChange={setCreateAccessToken} />
                         <Button
                             type={isUpload ? "submit" : "button"}
                             caption={isUpload ? "Upload" : "Create"}

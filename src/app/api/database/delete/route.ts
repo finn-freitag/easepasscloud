@@ -1,3 +1,4 @@
+import { DeleteAccessToken, DeleteAccessTokensByDatabase } from "@/backend/helper/AccessTokenHelper";
 import { GetDatabase } from "@/backend/helper/DatabaseHelper";
 import { CheckSessionToken, GetSessionInfo } from "@/backend/helper/SessionHelper";
 import { GetUserByUsername, SaveUser } from "@/backend/helper/UserHelpers";
@@ -37,6 +38,8 @@ export async function POST(req: NextRequest){
 
     await unlink("./data/databases/" + database.id + ".epdb");
     await unlink("./data/databasemetadata/" + database.id + ".json");
+
+    await DeleteAccessTokensByDatabase(database.id);
 
     return NextResponse.json({success: true});
 }

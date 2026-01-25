@@ -67,7 +67,7 @@ export default function ProfileDashboardView(props: DashboardViewProps){
 
     return (
         <div className={styles.view}>
-            <h2>Profile</h2>
+            <h2 style={{width:"100%",textAlign:"center"}}>Profile</h2>
             <InputField
                 caption="Username"
                 value={username}
