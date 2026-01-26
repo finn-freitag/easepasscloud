@@ -88,6 +88,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
             .then(r => r.json())
             .then(data => {
                 if (data.success) {
+                    props.user.databaseIDs.push(data.databaseID);
                     if(createAccessToken){
                         createDBAccessToken(data.databaseID, new Date(Date.now() + DefaultAccessTokenExpiryDays*24*60*60*1000))
                         .then(success=>{
