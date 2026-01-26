@@ -4,4 +4,5 @@ export type ServerConfig = {
     sessionTimeoutHours?: number;
     linkToImprint?: string;
     linkToPrivacyPolicy?: string;
+    autoUnlockTimeoutMinutes?: number;
 }

@@ -4,7 +4,15 @@ import { getServerConfig } from "@/backend/helper/ServerConfigHelper";
 import styles from "@/app/layout.module.scss";
 
 export async function generateMetadata(): Promise<Metadata> {
-    let serverConfig = await getServerConfig();
+    let serverConfig = null;
+    try {
+        serverConfig = await getServerConfig();
+    } catch {
+        serverConfig = {
+            serverAddress: "",
+            publicInstance: false,
+        };
+    }
 
     let description = "Manage your" + (serverConfig.publicInstance ? " public" : "") + " Ease Pass Cloud instance with ease.";
 
@@ -35,7 +43,10 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    let serverConfig = await getServerConfig();
+    let serverConfig = null;
+    try {
+        serverConfig = await getServerConfig();
+    } catch {}
     return (
         <html lang="en">
             <body>

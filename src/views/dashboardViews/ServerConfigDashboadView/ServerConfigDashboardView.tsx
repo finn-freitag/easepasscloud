@@ -4,7 +4,7 @@ import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
 import { ServerConfig } from "@/backend/models/ServerConfig";
 import InputField from "@/components/InputField/InputField";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
-import { DefaultSessionTimeoutHours } from "@/backend/DefaultValues";
+import { DefaultAutoUnlockTimeoutMinutes, DefaultSessionTimeoutHours } from "@/backend/DefaultValues";
 import Button from "@/components/Button/Button";
 import styles from "./ServerConfigDashboardView.module.scss";
 
@@ -78,6 +78,15 @@ export default function ServerConfigDashboardView(props: DashboardViewProps) {
                 onChange={(newValue) => {
                     if (serverConfig) {
                         setServerConfig({ ...serverConfig, sessionTimeoutHours: parseInt(newValue) })
+                    }
+                }}/>
+            <InputField
+                caption="Auto Unlock Timeout (minutes):"
+                value={serverConfig && serverConfig.autoUnlockTimeoutMinutes ? serverConfig.autoUnlockTimeoutMinutes.toString() : DefaultAutoUnlockTimeoutMinutes.toString()}
+                numeric
+                onChange={(newValue) => {
+                    if (serverConfig) {
+                        setServerConfig({ ...serverConfig, autoUnlockTimeoutMinutes: parseInt(newValue) })
                     }
                 }}/>
             <InputField

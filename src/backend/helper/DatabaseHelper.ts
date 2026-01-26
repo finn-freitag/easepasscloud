@@ -1,6 +1,9 @@
 import { readdir, readFile, writeFile } from "fs/promises";
 import { Database } from "../models/Database";
 import { GetAllUsers } from "./UserHelpers";
+import { createReadStream, ReadStream } from "fs";
+import { getServerConfig } from "./ServerConfigHelper";
+import { DefaultAutoUnlockTimeoutMinutes } from "../DefaultValues";
 
 export async function GetAllDatabases(): Promise<Database[]> {
     let files = await readdir("./data/databasemetadata/");
@@ -31,4 +34,28 @@ export async function GetDatabase(databaseID: string): Promise<Database | null> 
 
 export async function SaveDatabase(database: Database): Promise<void> {
     await writeFile(`./data/databasemetadata/${database.id+".json"}`, JSON.stringify(database), "utf-8");
+}
+
+export function GetDatabaseStream(databaseID: string): ReadStream {
+    let fn = `./data/databases/${databaseID}.epdb`;
+    return createReadStream(fn);
+}
+
+export function WriteDatabase(databaseID: string, data: Uint8Array<ArrayBuffer>): Promise<void> {
+    let fn = `./data/databases/${databaseID}.epdb`;
+    return writeFile(fn, data);
+}
+
+export async function AutoUnlockAll(){
+    let databases = await GetAllDatabases();
+    let serverConfig = await getServerConfig();
+    let lockMinutes = serverConfig.autoUnlockTimeoutMinutes || DefaultAutoUnlockTimeoutMinutes;
+    databases.forEach(db => {
+        if(db.locked){
+            let lastLock = db.lastLocked ? new Date(db.lastLocked) : new Date();
+            if((new Date().getTime() - lastLock.getTime()) > (lockMinutes * 60 * 1000))
+                db.locked = false;
+            SaveDatabase(db);
+        }
+    });
 }

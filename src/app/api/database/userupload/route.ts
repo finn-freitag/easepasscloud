@@ -1,4 +1,4 @@
-import { SaveDatabase } from '@/backend/helper/DatabaseHelper';
+import { SaveDatabase, WriteDatabase } from '@/backend/helper/DatabaseHelper';
 import { CheckSessionToken, GetSessionInfo } from '@/backend/helper/SessionHelper';
 import { GenerateRandomToken } from '@/backend/helper/TokenHelper';
 import { GetUserByUsername, SaveUser } from '@/backend/helper/UserHelpers';
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     let databaseToken = GenerateRandomToken();
 
     const buffer = new Uint8Array(await file.arrayBuffer());
-    await writeFile(`./data/databases/${databaseToken+".epdb"}`, buffer);
+    await WriteDatabase(databaseToken, buffer);
 
     const dbName = formData.get('databaseName')?.toString() || file.name.split('.').slice(0, -1).join('.');
     const isLockable = formData.get('isLockable')?.toString() === "true";

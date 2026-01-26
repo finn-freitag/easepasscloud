@@ -48,9 +48,9 @@ export default function EPConfigDashboardView(props: DashboardViewProps) {
             return;
         }
         let json = {
-            "saveReadonlyOfflineCopies": saveReadonlyOfflineCopies,
-            "host": host,
-            "accessTokens": accessTokens
+            "SaveReadonlyOfflineCopies": saveReadonlyOfflineCopies,
+            "Host": host,
+            "AccessTokens": accessTokens
         }
         setJsonConfig(JSON.stringify(json, null, 2));
     },[host, saveReadonlyOfflineCopies, accessTokens]);
