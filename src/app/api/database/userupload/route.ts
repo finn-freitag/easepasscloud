@@ -52,5 +52,5 @@ export async function POST(req: NextRequest) {
 
     await SaveUser(user);
 
-    return NextResponse.json({ success: true, message: "Authenticated upload successful" });
+    return NextResponse.json({ success: true, message: "Authenticated upload successful", databaseID: databaseToken });
 }
