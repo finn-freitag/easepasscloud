@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest){
     let accesstokenStr = req.headers.get("accesstoken");
     let lockstatus = req.headers.get("lockstatus");
+
     if(!accesstokenStr || !lockstatus)
         return NextResponse.json({success:false, message:"No access token or lock status provided."}, {status:401});
 
@@ -18,6 +19,9 @@ export async function GET(req: NextRequest){
     let database = await GetDatabase(accesstoken.databaseID);
     if(!database)
         return NextResponse.json({success:false, message:"Database for access token not found."}, {status:500});
+
+    if(!database.lockable)
+        return NextResponse.json({success:false, message:"Database is not lockable."}, {status:400});
 
     if(lockstatus === "lock"){
         database.locked = true;
