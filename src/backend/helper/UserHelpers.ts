@@ -1,6 +1,7 @@
-import { readFile, writeFile } from "fs/promises";
+import { readFile, unlink, writeFile } from "fs/promises";
 import { User } from "../models/User";
 import { HashArgon2, VerifyArgon2 } from "./HashHelper";
+import { DeleteAccessToken } from "./AccessTokenHelper";
 
 export async function GetAllUsers(): Promise<User[]> {
     let users: User[] = JSON.parse(await readFile("./data/users.json", "utf-8"));
@@ -34,6 +35,20 @@ export async function UpdateUsername(oldUsername: string, newUsername: string): 
     users[userIndex].username = newUsername;
     await SaveAllUsers(users);
     return true;
+}
+
+export async function DeleteUser(username: string){
+    let user = await GetUserByUsername(username);
+    user?.accessTokens.forEach((a)=>{
+        DeleteAccessToken(a);
+    });
+    for(let d in user?.databaseIDs){
+        await unlink("./data/databases/" + d + ".epdb");
+        await unlink("./data/databasemetadata/" + d + ".json");
+    }
+    let users = await GetAllUsers();
+    users = users.filter((u)=>u.username !== username);
+    await SaveAllUsers(users);
 }
 
 export async function LoginUser(username: string, password: string): Promise<User|undefined> {

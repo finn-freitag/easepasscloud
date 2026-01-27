@@ -9,6 +9,7 @@ export default function ProfileDashboardView(props: DashboardViewProps){
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [oldPassword, setOldPassword] = useState("");
+    const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
     function updateUsername(){
         fetch("/api/profile/username", {
@@ -65,6 +66,33 @@ export default function ProfileDashboardView(props: DashboardViewProps){
         });
     }
 
+    function deleteTyping(e: string){
+        setDeleteConfirmation(e);
+        if(e !== "delete")
+            return;
+        fetch("/api/profile/delete", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                username: props.user.username,
+                sessionToken: props.sessionToken
+            })
+        })
+        .then(r=>r.json())
+        .then(data => {
+            if(data.success) {
+                props.setInfoMessage("Profile deleted successfully.");
+                window.location.reload();
+                return;
+            } else {
+                props.setInfoMessage(`Failed to delete profile: ${data.message}`);
+            }
+        })
+        .catch(() => {
+            props.setInfoMessage("Failed to delete profile. Please try again.");
+        });
+    }
+
     return (
         <div className={styles.view}>
             <h2 style={{width:"100%",textAlign:"center"}}>Profile</h2>
@@ -96,6 +124,10 @@ export default function ProfileDashboardView(props: DashboardViewProps){
             <div>
                 Hint: Do not store your Ease Pass Cloud credentials in a remote database of the same instance. If your access token expires or is revoked, you may lose access to your data.
             </div>
+            <InputField
+                caption={"Type \"delete\" to delete your profile"}
+                value={deleteConfirmation}
+                onChange={deleteTyping}/>
         </div>
     );
 }
