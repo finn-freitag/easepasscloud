@@ -23,6 +23,8 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
 
     const [editToken, setEditToken] = useState<AccessToken|null>(null);
 
+    const [deleteType, setDeleteType] = useState<string|null>(null);
+
     useEffect(()=>{
         fetch("/api/accesstokens", {method: "POST",headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: props.sessionToken})})
             .then(r=>r.json())
@@ -74,6 +76,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                 if(data.success) {
                     props.setInfoMessage("Access token created successfully.");
                     setIsCreating(false);
+                    props.user.accessTokens.push(data.accessToken);
                     reloadAccessTokens(!reloadTrigger);
                 } else {
                     props.setInfoMessage("Failed to create access token: " + data.message);
@@ -103,6 +106,31 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
             })
             .catch(() => {
                 props.setInfoMessage("Failed to save access token: Network error.");
+            });
+    }
+
+    function deleteTypeing(e: string){
+        setDeleteType(e);
+        if(e !== "delete")
+            return;
+        setDeleteType(null);
+        fetch("/api/accesstokens/delete", {method: "POST",headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                sessionToken: props.sessionToken,
+                accessToken: editToken
+            })})
+            .then(r=>r.json())
+            .then(data => {
+                if(data.success) {
+                    props.setInfoMessage("Access token deleted successfully.");
+                    setEditToken(null);
+                    reloadAccessTokens(!reloadTrigger);
+                } else {
+                    props.setInfoMessage("Failed to delete access token: " + data.message);
+                }
+            })
+            .catch(() => {
+                props.setInfoMessage("Failed to delete access token: Network error.");
             });
     }
 
@@ -198,6 +226,11 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                             if(editToken) setEditToken({...editToken, readonly: v});
                         }} />
                     <Button caption="Save" onClick={saveAccessToken} />
+                    <Button caption="Delete" onClick={()=>setDeleteType("")} />
+                    {deleteType !== null && <InputField
+                        caption={"Type \"delete\" to delete the token:"}
+                        value={deleteType ?? ""}
+                        onChange={(e)=>deleteTypeing(e)} />}
                 </div>
             </Overlay>
         </div>
