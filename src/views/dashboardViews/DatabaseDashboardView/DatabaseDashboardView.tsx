@@ -92,9 +92,10 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                     if(createAccessToken){
                         createDBAccessToken(data.databaseID, new Date(Date.now() + DefaultAccessTokenExpiryDays*24*60*60*1000))
                         .then(success=>{
-                            if(success)
+                            if(success) {
+                                reloadDatabases(!reloadDBTrigger);
                                 props.setInfoMessage('Database and access token created successfully. (Expiry: ' + DefaultAccessTokenExpiryDays + ' days)');
-                            else
+                            } else
                                 props.setInfoMessage('Database uploaded but failed to create access token.');
                         });
                     }else
