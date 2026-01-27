@@ -21,6 +21,7 @@ export async function GET(req: NextRequest){
     return NextResponse.json({success:true, data: {
         LastModified: database.lastModified,
         DatabaseName: database.name,
+        DatabaseID: database.id,
         Locked: database.locked,
         Readonly: accesstoken.readonly
     }});
