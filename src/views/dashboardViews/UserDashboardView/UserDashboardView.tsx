@@ -15,6 +15,7 @@ export default function UserDashboardView(props: DashboardViewProps){
     const [isEditing, setIsEditing] = useState(false);
     const [editUser, setEditUser] = useState<User | null>(null);
     const [originalUsername, setOriginalUsername] = useState<string>("");
+    const [deleteType, setDeleteType] = useState<string|null>(null);
 
     useEffect(()=>{
         fetch("/api/users", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: props.sessionToken})})
@@ -82,6 +83,34 @@ export default function UserDashboardView(props: DashboardViewProps){
             });
     }
 
+    function deleteTyping(e: string){
+        setDeleteType(e);
+        if(e !== "delete")
+            return;
+        fetch("/api/users/delete", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({
+                sessionToken: props.sessionToken,
+                username: editUser?.username
+            })})
+            .then(r=>r.json())
+            .then(data => {
+                if(data.success) {
+                    props.setInfoMessage("User deleted successfully.");
+                    setEditUser(null);
+                    setDeleteType(null);
+                    if(editUser?.username === props.user.username){
+                        window.location.reload();
+                        return;
+                    }
+                    reloadUsers(!reloadTrigger);
+                } else {
+                    props.setInfoMessage("Failed to delete user: " + data.message);
+                }
+            })
+            .catch(() => {
+                props.setInfoMessage("Failed to delete user: Network error.");
+            });
+    }
+
     function getEmptyUser(): User {
         return {
             username: "",
@@ -114,7 +143,7 @@ export default function UserDashboardView(props: DashboardViewProps){
                 caption="Create User"
                 onClick={()=>{setEditUser(getEmptyUser()); setIsEditing(false);}} />
             <Overlay visible={editUser !== null} onSideClick={()=>{setEditUser(null);}}>
-                <div>
+                <div className={styles.form}>
                     <h2>{isEditing ? "Edit" : "Create"} User</h2>
                     {editUser && <>
                         <InputField
@@ -133,6 +162,14 @@ export default function UserDashboardView(props: DashboardViewProps){
                         <Button
                             caption={isEditing ? "Save" : "Create"}
                             onClick={isEditing ? editUserClick : createUserClick}/>
+                        <Button
+                            caption="Delete"
+                            onClick={()=>setDeleteType("")}/>
+                        {deleteType !== null &&
+                            <InputField
+                                caption={"Type \"delete\" to remove this user"}
+                                onChange={deleteTyping}/>
+                        }
                     </>}
                 </div>
             </Overlay>
