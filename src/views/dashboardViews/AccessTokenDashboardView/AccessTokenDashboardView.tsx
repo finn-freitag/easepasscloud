@@ -4,6 +4,7 @@ import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
 import { useEffect, useState } from "react";
 import Button from "@/components/Button/Button";
 import styles from "./AccessTokenDashboardView.module.scss";
+import generalstyles from "@/components/GeneralStyles.module.scss";
 import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import { Database } from "@/backend/models/Database";
@@ -76,7 +77,6 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                 if(data.success) {
                     props.setInfoMessage("Access token created successfully.");
                     setIsCreating(false);
-                    props.user.accessTokens.push(data.accessToken);
                     reloadAccessTokens(!reloadTrigger);
                 } else {
                     props.setInfoMessage("Failed to create access token: " + data.message);
@@ -135,9 +135,9 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
     }
 
     return (
-        <div className={styles.view}>
+        <div className={generalstyles.view}>
             <h2 style={{width:"100%",textAlign:"center"}}>Access Tokens</h2>
-            <div className={styles.menuItem}>
+            <div className={generalstyles.menuItem}>
                 <strong>Enabled</strong>
                 <strong>Username</strong>
                 <strong>Database Name</strong>
@@ -145,7 +145,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                 <div style={{width:"3rem"}}></div>
             </div>
             {accessTokens.filter(t=>t.accessToken.userID===props.user.username).map((t,i)=>(
-                <div key={i} className={styles.menuItem}>
+                <div key={i} className={generalstyles.menuItem}>
                     <div>{t.accessToken.enabled ? "✅" : "❌"} {t.accessToken.readonly ? "⛔" : ""}</div>
                     <div>{t.accessToken.userID}</div>
                     <div>{t.databaseName ? t.databaseName : "unknown"}</div>
@@ -156,7 +156,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
             <Button caption="Create Access Token" onClick={()=>setIsCreating(true)} />
             {accessTokens.filter(t=>t.accessToken.userID!==props.user.username).length > 0 && <div className={styles.adminHint}>As admin you can also see access tokens of other users:</div>}
             {accessTokens.filter(t=>t.accessToken.userID!==props.user.username).map((t,i)=>(
-                <div key={i} className={styles.menuItem}>
+                <div key={i} className={generalstyles.menuItem}>
                     <div>{t.accessToken.enabled ? "✅" : "❌"} {t.accessToken.readonly ? "⛔" : ""}</div>
                     <div>{t.accessToken.userID}</div>
                     <div>{t.databaseName ? t.databaseName : "unknown"}</div>

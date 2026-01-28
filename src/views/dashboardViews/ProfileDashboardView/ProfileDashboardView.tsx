@@ -2,7 +2,7 @@ import InputField from "@/components/InputField/InputField";
 import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
 import { useState } from "react";
 import Button from "@/components/Button/Button";
-import styles from "./ProfileDashboardView.module.scss";
+import styles from "@/components/GeneralStyles.module.scss";
 
 export default function ProfileDashboardView(props: DashboardViewProps){
     const [username, setUsername] = useState(props.user.username);

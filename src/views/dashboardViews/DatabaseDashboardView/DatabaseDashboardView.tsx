@@ -5,6 +5,7 @@ import { Database } from "@/backend/models/Database";
 import Button from "@/components/Button/Button";
 import buttonStyle from "@/components/Button/Button.module.scss";
 import styles from "./DatabaseDashboardView.module.scss";
+import generalstyles from "@/components/GeneralStyles.module.scss";
 import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
@@ -182,9 +183,9 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
     }
 
     return (
-        <div className={styles.databases}>
+        <div className={generalstyles.view}>
             <h2 style={{width:"100%",textAlign:"center"}}>Databases</h2>
-            <div className={styles.databaseItem}>
+            <div className={generalstyles.menuItem}>
                 <strong>Database Name</strong>
                 <div className={styles.databaseItemRight}>
                     <strong>Last Modified</strong>
@@ -193,7 +194,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                 </div>
             </div>
             {databases.filter(x=>props.user.databaseIDs.includes(x.id)).map((db,i) => (
-                <div key={i} className={styles.databaseItem}>
+                <div key={i} className={generalstyles.menuItem}>
                     <div>{db.name}</div>
                     <div className={styles.databaseItemRight}>
                         <div>{new Date(db.lastModified).toLocaleDateString()}</div>
@@ -232,7 +233,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
             </form>
             {databases.filter(x=>!props.user.databaseIDs.includes(x.id)).length > 0 && <div className={styles.adminHint}>As admin you can also see databases of other users:</div>}
             {databases.filter(x=>!props.user.databaseIDs.includes(x.id)).map((db,i) => (
-                <div key={i} className={styles.databaseItem}>
+                <div key={i} className={generalstyles.menuItem}>
                     <div>{db.name}</div>
                     <div className={styles.databaseItemRight}>
                         <div>{new Date(db.lastModified).toLocaleDateString()}</div>

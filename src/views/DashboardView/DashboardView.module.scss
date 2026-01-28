@@ -1,6 +1,9 @@
 .view {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
 }
 
 .username {
@@ -8,18 +11,12 @@
     color: var(--Accent);
 }
 
-.container {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    height: 100%;
-}
-
-.menu {
+.baseMenu {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     width: 15rem;
+    overflow-y: auto;
 }
 
 .menuItem {
@@ -59,4 +56,34 @@
     align-items: center;
     gap: 0.5rem;
     width: 100%;
+}
+
+.menuToggle {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+    &:hover {
+        color: var(--Accent);
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .view {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .menuToggle {
+        display: block;
+    }
+    .baseMenu {
+        width: 100%;
+        height: max-content;
+    }
+    .menuHidden {
+        display: none;
+    }
+    .contentPage {
+        height: unset;
+        overflow-y: auto;
+    }
 }

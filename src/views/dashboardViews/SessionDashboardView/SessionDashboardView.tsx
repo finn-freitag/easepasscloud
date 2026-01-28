@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
-import styles from "./SessionDashboardView.module.scss";
+import styles from "@/components/GeneralStyles.module.scss";
 import { Session } from "@/backend/models/Session";
 import Button from "@/components/Button/Button";
 import { DefaultViewUpdateTime } from "@/backend/DefaultValues";
@@ -50,7 +50,7 @@ export default function SessionDashboardView(props: DashboardViewProps) {
     }
 
     return (
-        <div className={styles.list}>
+        <div className={styles.view}>
             <h2>Active Sessions</h2>
             <div className={styles.menuItem}>
                 <strong>Username</strong>

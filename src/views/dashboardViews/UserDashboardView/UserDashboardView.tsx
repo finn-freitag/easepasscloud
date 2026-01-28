@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
-import styles from "./UserDashboardView.module.scss";
+import styles from "@/components/GeneralStyles.module.scss";
 import { User } from "@/backend/models/User";
 import { DefaultViewUpdateTime } from "@/backend/DefaultValues";
 import Button from "@/components/Button/Button";
