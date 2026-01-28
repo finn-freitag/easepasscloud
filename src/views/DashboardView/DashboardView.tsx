@@ -10,6 +10,7 @@ import SessionDashboardView from "../dashboardViews/SessionDashboardView/Session
 import ProfileDashboardView from "../dashboardViews/ProfileDashboardView/ProfileDashboardView";
 import AccessTokenDashboardView from "../dashboardViews/AccessTokenDashboardView/AccessTokenDashboardView";
 import EPConfigDashboardView from "../dashboardViews/EPConfigDashboardView/EPConfigDashboardView";
+import UserDashboardView from "../dashboardViews/UserDashboardView/UserDashboardView";
 
 export default function DashboardView(props: ViewProps) {
     const [dashboardViewProps, setDashboardViewProps] = useState<DashboardViewProps|null>(null);
@@ -80,6 +81,7 @@ export default function DashboardView(props: ViewProps) {
                         "accessTokens": <AccessTokenDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "easePassConfig": <EPConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "profile": <ProfileDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
+                        "users": <UserDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "sessions": <SessionDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                         "server": <ServerConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
                     }[currentDashboardView]}

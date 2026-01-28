@@ -8,7 +8,7 @@ import styles from "./DatabaseDashboardView.module.scss";
 import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
-import { DefaultAccessTokenExpiryDays } from "@/backend/DefaultValues";
+import { DefaultAccessTokenExpiryDays, DefaultViewUpdateTime } from "@/backend/DefaultValues";
 
 export function DatabaseDashboardView(props: DashboardViewProps) {
     const [databases, setDatabases] = useState<Database[]>([]);
@@ -24,7 +24,6 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
     const [createAccessToken, setCreateAccessToken] = useState(true);
 
     useEffect(()=>{
-        console.log("Loading databases...");
         fetch("/api/database", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: props.sessionToken})})
             .then(r=>r.json())
             .then(data => {
@@ -41,7 +40,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
     },[reloadDBTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadDatabases(!reloadDBTrigger), 20000);
+        const interval = setInterval(()=>reloadDatabases(!reloadDBTrigger), DefaultViewUpdateTime);
         return () => clearInterval(interval);
     }, []);
 

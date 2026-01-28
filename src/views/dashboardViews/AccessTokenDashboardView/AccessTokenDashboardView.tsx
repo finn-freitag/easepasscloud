@@ -8,7 +8,7 @@ import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import { Database } from "@/backend/models/Database";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
-import { DefaultAccessTokenExpiryDays } from "@/backend/DefaultValues";
+import { DefaultAccessTokenExpiryDays, DefaultViewUpdateTime } from "@/backend/DefaultValues";
 
 export default function AccessTokenDashboardView(props: DashboardViewProps) {
     const [accessTokens, setAccessTokens] = useState<{accessToken: AccessToken, databaseName?: string}[]>([]);
@@ -54,7 +54,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
     },[reloadTrigger, props.user.databaseIDs]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadAccessTokens(!reloadTrigger), 20000);
+        const interval = setInterval(()=>reloadAccessTokens(!reloadTrigger), DefaultViewUpdateTime);
         return () => clearInterval(interval);
     },[]);
 
