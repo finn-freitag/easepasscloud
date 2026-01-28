@@ -34,7 +34,7 @@ export default function UserDashboardView(props: DashboardViewProps){
     }, [reloadTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadUsers(!reloadTrigger), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadUsers(prev => !prev), DefaultViewUpdateTime);
         return () => clearInterval(interval);
     }, []);
 

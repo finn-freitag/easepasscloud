@@ -55,7 +55,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
     },[reloadTrigger, props.user.databaseIDs]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadAccessTokens(!reloadTrigger), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadAccessTokens(prev => !prev), DefaultViewUpdateTime);
         return () => clearInterval(interval);
     },[]);
 
@@ -165,7 +165,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                 </div>
             ))}
             <Overlay visible={isCreating} onSideClick={()=>setIsCreating(false)} >
-                <div className={styles.createForm}>
+                <div className={generalstyles.form}>
                     <h2>Create Access Token</h2>
                     {props.user.admin && <InputField
                         caption="Username"
@@ -199,7 +199,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                 </div>
             </Overlay>
             <Overlay visible={editToken!==null} onSideClick={()=>setEditToken(null)}>
-                <div className={styles.createForm}>
+                <div className={generalstyles.form}>
                     <h2>Edit Access Token</h2>
                     <InputSwitch
                         caption="Enabled"

@@ -25,7 +25,7 @@ export default function SessionDashboardView(props: DashboardViewProps) {
     },[reloadTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadSessions(!reloadTrigger), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadSessions(prev => !prev), DefaultViewUpdateTime);
         return () => clearInterval(interval);
     },[]);
 

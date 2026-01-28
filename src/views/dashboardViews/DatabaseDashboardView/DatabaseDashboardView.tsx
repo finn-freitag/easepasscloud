@@ -41,7 +41,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
     },[reloadDBTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadDatabases(!reloadDBTrigger), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadDatabases(prev => !prev), DefaultViewUpdateTime);
         return () => clearInterval(interval);
     }, []);
 
