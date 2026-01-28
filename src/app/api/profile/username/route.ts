@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     let newUsername = body.newUsername;
     let sessionToken = body.sessionToken;
 
-    if(!username || !newUsername || !sessionToken)
+    if(!username || !newUsername || !sessionToken || newUsername.length === 0)
         return NextResponse.json({success: false, message: "Missing parameters."}, {status: 400});
 
     if(await GetUserByUsername(newUsername))

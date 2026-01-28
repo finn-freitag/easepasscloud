@@ -9,6 +9,10 @@ export async function POST(req: NextRequest){
         return NextResponse.json({ success: false, message: "Instance is not public." }, { status: 403 });
     
     let body = await req.json();
+
+    if(!body.username || !body.password || body.username.length === 0 || body.password.length === 0)
+        return NextResponse.json({ success: false, message: "Missing parameters." }, { status: 400 });
+
     let user = await RegisterUser(body.username, body.password);
     if(!user)
         return NextResponse.json({ success: false, message: "Username already exists." }, { status: 409 });

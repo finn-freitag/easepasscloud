@@ -35,7 +35,6 @@ export async function POST(req: NextRequest){
         username: username,
         passwordHash: await HashArgon2(password),
         databaseIDs: [],
-        accessTokens: [],
         admin: admin
     }
 

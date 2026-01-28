@@ -24,6 +24,8 @@ export async function POST(req: NextRequest){
         return NextResponse.json({success: false, message: "Insufficient permissions." }, {status: 403});
 
     let users = await GetAllUsers();
+    for(let i = 0; i < users.length; i++)
+        users[i].passwordHash = "";
 
     return NextResponse.json({success: true, users: users});
 }

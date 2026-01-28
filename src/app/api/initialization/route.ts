@@ -29,11 +29,13 @@ export async function POST(req: NextRequest){
         adminPassword: string
     } = await req.json();
 
+    if(body.publicInstance === undefined || !body.serverAddress || !body.adminUsername || !body.adminPassword || body.adminUsername.length === 0 || body.adminPassword.length === 0)
+        return NextResponse.json({ success: false, message: "Missing parameters." }, { status: 400 });
+
     let admin: User = {
         username: body.adminUsername,
         passwordHash: await HashArgon2(body.adminPassword),
         databaseIDs: [],
-        accessTokens: [],
         admin: true
     }
 

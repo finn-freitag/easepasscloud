@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     let { oldPassword, newPassword, sessionToken, username } = await req.json();
 
-    if(!oldPassword || !newPassword || !sessionToken || !username)
+    if(!oldPassword || !newPassword || !sessionToken || !username || newPassword.length === 0)
         return NextResponse.json({ success: false, message: "Missing parameters." }, { status: 400 });
 
     if(!(await CheckSessionToken(sessionToken)))

@@ -12,12 +12,9 @@ export default function UserDashboardView(props: DashboardViewProps){
     const [users, setUsers] = useState<User[]>([]);
     const [reloadTrigger, reloadUsers] = useState(false);
 
-    const [createUser, setCreateUser] = useState(false);
-    const [createUsername, setCreateUsername] = useState("");
-    const [createPassword, setCreatePassword] = useState("");
-    const [createAdmin, setCreateAdmin] = useState(false);
-
+    const [isEditing, setIsEditing] = useState(false);
     const [editUser, setEditUser] = useState<User | null>(null);
+    const [originalUsername, setOriginalUsername] = useState<string>("");
 
     useEffect(()=>{
         fetch("/api/users", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({sessionToken: props.sessionToken})})
@@ -43,18 +40,15 @@ export default function UserDashboardView(props: DashboardViewProps){
     function createUserClick(){
         fetch("/api/users/create", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({
                 sessionToken: props.sessionToken,
-                username: createUsername,
-                password: createPassword,
-                admin: createAdmin
+                username: editUser?.username,
+                password: editUser?.passwordHash,
+                admin: editUser?.admin
             })})
             .then(r=>r.json())
             .then(data => {
                 if(data.success) {
                     props.setInfoMessage("User created successfully.");
-                    setCreateUser(false);
-                    setCreateUsername("");
-                    setCreatePassword("");
-                    setCreateAdmin(false);
+                    setEditUser(null);
                     reloadUsers(!reloadTrigger);
                 } else {
                     props.setInfoMessage("Failed to create user: " + data.message);
@@ -63,6 +57,38 @@ export default function UserDashboardView(props: DashboardViewProps){
             .catch(() => {
                 props.setInfoMessage("Failed to create user: Network error.");
             });
+    }
+
+    function editUserClick(){
+        fetch("/api/users/edit", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({
+                sessionToken: props.sessionToken,
+                username: originalUsername,
+                newUsername: editUser?.username === originalUsername ? null : editUser?.username,
+                password: editUser?.passwordHash && editUser?.passwordHash.length > 0 ? editUser.passwordHash : undefined,
+                admin: editUser?.admin
+            })})
+            .then(r=>r.json())
+            .then(data => {
+                if(data.success) {
+                    props.setInfoMessage("User edited successfully.");
+                    setEditUser(null);
+                    reloadUsers(!reloadTrigger);
+                } else {
+                    props.setInfoMessage("Failed to edit user: " + data.message);
+                }
+            })
+            .catch(() => {
+                props.setInfoMessage("Failed to edit user: Network error.");
+            });
+    }
+
+    function getEmptyUser(): User {
+        return {
+            username: "",
+            passwordHash: "",
+            admin: false,
+            databaseIDs: []
+        }
     }
 
     return (
@@ -76,35 +102,38 @@ export default function UserDashboardView(props: DashboardViewProps){
             </div>
             {users.map((u,i)=>(
                 <div key={i} className={styles.menuItem}>
-                    <div>{u.username}</div>
+                    <div>{u.username} {u.username === props.user.username ? <span className={styles.current}>{"(You)"}</span> : ""}</div>
                     <div>{u.databaseIDs.length}</div>
                     <div>{u.admin ? "✅" : "❌"}</div>
                     <Button
                         caption="⋮"
-                        onClick={()=>setEditUser(u)} />
+                        onClick={()=>{setEditUser(u); setIsEditing(true); setOriginalUsername(u.username);}} />
                 </div>
             ))}
             <Button
                 caption="Create User"
-                onClick={()=>setCreateUser(true)} />
-            <Overlay visible={createUser} onSideClick={()=>setCreateUser(false)}>
+                onClick={()=>{setEditUser(getEmptyUser()); setIsEditing(false);}} />
+            <Overlay visible={editUser !== null} onSideClick={()=>{setEditUser(null);}}>
                 <div>
-                    <h2>Create User</h2>
-                    <InputField
-                        caption="Username"
-                        value={createUsername}
-                        onChange={(e)=>setCreateUsername(e)}/>
-                    <InputField
-                        caption="Password"
-                        value={createPassword}
-                        onChange={(e)=>setCreatePassword(e)}/>
-                    <InputSwitch
-                        caption="Is Admin"
-                        value={createAdmin}
-                        onChange={(e)=>setCreateAdmin(e)}/>
-                    <Button
-                        caption="Create"
-                        onClick={createUserClick}/>
+                    <h2>{isEditing ? "Edit" : "Create"} User</h2>
+                    {editUser && <>
+                        <InputField
+                            caption="Username"
+                            value={editUser?.username}
+                            onChange={(e)=>setEditUser(editUser ? {...editUser, username: e} : null)}/>
+                        <InputField
+                            caption="Password"
+                            password
+                            value={editUser?.passwordHash}
+                            onChange={(e)=>setEditUser(editUser ? {...editUser, passwordHash: e} : null)}/>
+                        <InputSwitch
+                            caption="Is Admin"
+                            value={editUser?.admin ?? false}
+                            onChange={(e)=>setEditUser(editUser ? {...editUser, admin: e} : null)}/>
+                        <Button
+                            caption={isEditing ? "Save" : "Create"}
+                            onClick={isEditing ? editUserClick : createUserClick}/>
+                    </>}
                 </div>
             </Overlay>
         </div>
