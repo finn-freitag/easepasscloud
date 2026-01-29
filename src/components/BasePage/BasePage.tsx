@@ -11,11 +11,19 @@ export function BasePage(props: BasePageProps) {
     const [privacyPolicy, setPrivacyPolicy] = useState<string|null>(null);
 
     useEffect(()=>{
+        console.log("BasePage: Fetching footer config");
         fetch("/api/serverconfig/get/footer")
-            .then(r=>r.json())
+            .then(r=>{
+                console.log("BasePage: Response status:", r.status);
+                return r.json();
+            })
             .then(data => {
+                console.log("BasePage: Footer data received:", data);
                 setImprint(data.imprint);
                 setPrivacyPolicy(data.privacyPolicy);
+            })
+            .catch(error => {
+                console.error("BasePage: Error fetching footer:", error);
             });
     },[]);
 
