@@ -6,6 +6,7 @@ import LoginView from "@/views/LoginView/LoginView";
 import Overlay from "@/components/Overlay/Overlay";
 import Button from "@/components/Button/Button";
 import DashboardView from "@/views/DashboardView/DashboardView";
+import { BasePage } from "@/components/BasePage/BasePage";
 
 export default function Home() {
     const [currentView, setCurrentView] = useState("none");
@@ -31,24 +32,26 @@ export default function Home() {
     }
 
     return (
-        <div className={styles.page}>
-            <div className={styles.header}>
-                {["none","initialization","login"].includes(currentView) && <>
-                    <img src="/Icon.png" alt="Ease Pass Cloud Logo" className={styles.logo} />
-                    <h1 className={styles.headline}>Ease Pass Cloud</h1>
-                </>}
-                {{
-                    "none": "Loading...",
-                    "initialization": <InitializationView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
-                    "login": <LoginView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
-                    "dashboard": <DashboardView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
-                }[currentView]}
+        <BasePage>
+            <div className={styles.page}>
+                <div className={styles.header}>
+                    {["none","initialization","login"].includes(currentView) && <>
+                        <img src="/Icon.png" alt="Ease Pass Cloud Logo" className={styles.logo} />
+                        <h1 className={styles.headline}>Ease Pass Cloud</h1>
+                    </>}
+                    {{
+                        "none": "Loading...",
+                        "initialization": <InitializationView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
+                        "login": <LoginView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
+                        "dashboard": <DashboardView onNavigateBack={navigateToView} setInfoMessage={setInfoMessage} viewParameters={currentProps} />,
+                    }[currentView]}
+                </div>
+                <Overlay visible={infoMessage !== ""} onSideClick={() => setInfoMessage("")} >
+                    <p>{infoMessage}</p>
+                    <br />
+                    <Button caption="OK" onClick={() => setInfoMessage("")} />
+                </Overlay>
             </div>
-            <Overlay visible={infoMessage !== ""} onSideClick={() => setInfoMessage("")} >
-                <p>{infoMessage}</p>
-                <br />
-                <Button caption="OK" onClick={() => setInfoMessage("")} />
-            </Overlay>
-        </div>
+        </BasePage>
     );
 }
