@@ -3,7 +3,6 @@ import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
 import styles from "@/components/GeneralStyles.module.scss";
 import { Session } from "@/backend/models/Session";
 import Button from "@/components/Button/Button";
-import { DefaultViewUpdateTime } from "@/backend/DefaultValues";
 
 export default function SessionDashboardView(props: DashboardViewProps) {
     const [sessions, setSessions] = useState<{ token: string, session: Session }[]>([]);
@@ -25,7 +24,7 @@ export default function SessionDashboardView(props: DashboardViewProps) {
     },[reloadTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadSessions(prev => !prev), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadSessions(prev => !prev), props.defaultValues.viewUpdateTime);
         return () => clearInterval(interval);
     },[]);
 

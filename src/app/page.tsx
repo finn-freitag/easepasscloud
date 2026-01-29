@@ -5,7 +5,6 @@ import { InitializationView } from "@/views/InitializationView/InitializationVie
 import LoginView from "@/views/LoginView/LoginView";
 import Overlay from "@/components/Overlay/Overlay";
 import Button from "@/components/Button/Button";
-import { User } from "@/backend/models/User";
 import DashboardView from "@/views/DashboardView/DashboardView";
 
 export default function Home() {

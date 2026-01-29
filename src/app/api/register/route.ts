@@ -1,3 +1,4 @@
+import { getDefaultValues } from "@/backend/DefaultValues";
 import { getServerConfig } from "@/backend/helper/ServerConfigHelper";
 import { CreateSessionToken } from "@/backend/helper/SessionHelper";
 import { RegisterUser } from "@/backend/helper/UserHelpers";
@@ -20,5 +21,5 @@ export async function POST(req: NextRequest){
         return NextResponse.json({ success: false, message: "Username already exists." }, { status: 409 });
 
     let sessionToken = await CreateSessionToken(user.username);
-    return NextResponse.json({ success: true, user: {...user, passwordHash: undefined}, sessionToken: sessionToken });
+    return NextResponse.json({ success: true, user: {...user, passwordHash: undefined}, sessionToken: sessionToken, defaultValues: getDefaultValues() });
 }

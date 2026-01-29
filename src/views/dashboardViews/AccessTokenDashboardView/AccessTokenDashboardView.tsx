@@ -9,7 +9,6 @@ import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import { Database } from "@/backend/models/Database";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
-import { DefaultAccessTokenExpiryDays, DefaultViewUpdateTime } from "@/backend/DefaultValues";
 
 export default function AccessTokenDashboardView(props: DashboardViewProps) {
     const [accessTokens, setAccessTokens] = useState<{accessToken: AccessToken, databaseName?: string}[]>([]);
@@ -18,7 +17,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
 
     const [isCreating, setIsCreating] = useState(false);
     const [selectedDatabaseID, setSelectedDatabaseID] = useState<string|null>(null);
-    const [expiresAt, setExpiresAt] = useState<Date|null>(new Date(Date.now()+DefaultAccessTokenExpiryDays*24*60*60*1000));
+    const [expiresAt, setExpiresAt] = useState<Date|null>(new Date(Date.now()+props.defaultValues.accessTokenExpiryDays*24*60*60*1000));
     const [username, setUsername] = useState<string>(props.user.username);
     const [readonly, setReadonly] = useState<boolean>(false);
 
@@ -55,7 +54,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
     },[reloadTrigger, props.user.databaseIDs]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadAccessTokens(prev => !prev), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadAccessTokens(prev => !prev), props.defaultValues.viewUpdateTime);
         return () => clearInterval(interval);
     },[]);
 
@@ -175,7 +174,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                         caption="Can Expire"
                         value={expiresAt !== null}
                         onChange={(v)=>{
-                            if(v) setExpiresAt(new Date(Date.now()+DefaultAccessTokenExpiryDays*24*60*60*1000));
+                            if(v) setExpiresAt(new Date(Date.now()+props.defaultValues.accessTokenExpiryDays*24*60*60*1000));
                             else setExpiresAt(null);
                         }} />
                     {expiresAt && <InputField
@@ -211,7 +210,7 @@ export default function AccessTokenDashboardView(props: DashboardViewProps) {
                         caption="Can Expire"
                         value={editToken?.expiresAt !== null}
                         onChange={(v)=>{
-                            if(v) setEditToken(editToken ? {...editToken, expiresAt: new Date(Date.now()+DefaultAccessTokenExpiryDays*24*60*60*1000)} : null);
+                            if(v) setEditToken(editToken ? {...editToken, expiresAt: new Date(Date.now()+props.defaultValues.accessTokenExpiryDays*24*60*60*1000)} : null);
                             else setEditToken(editToken ? {...editToken, expiresAt: null} : null);
                         }} />
                     {editToken?.expiresAt && <InputField

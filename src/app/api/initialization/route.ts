@@ -1,10 +1,11 @@
+import { getDefaultAutoUnlockTimeoutMinutes, getDefaultSessionTimeoutHours } from "@/backend/DefaultValues";
 import { HashArgon2 } from "@/backend/helper/HashHelper";
 import { getServerConfig, isServerInitialized, saveServerConfig } from "@/backend/helper/ServerConfigHelper";
 import { SaveAllUsers } from "@/backend/helper/UserHelpers";
 import { ServerConfig } from "@/backend/models/ServerConfig";
 import { User } from "@/backend/models/User";
 import { existsSync } from "fs";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
     
 export async function GET(req: NextRequest){
@@ -53,7 +54,8 @@ export async function POST(req: NextRequest){
     let serverconfig: ServerConfig = {
         publicInstance: body.publicInstance,
         serverAddress: body.serverAddress,
-        sessionTimeoutHours: 24
+        sessionTimeoutHours: getDefaultSessionTimeoutHours(),
+        autoUnlockTimeoutMinutes: getDefaultAutoUnlockTimeoutMinutes()
     }
 
     await saveServerConfig(serverconfig);

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { DashboardViewProps } from "../dashboardViewProps/DashboardViewProps";
 import styles from "@/components/GeneralStyles.module.scss";
 import { User } from "@/backend/models/User";
-import { DefaultViewUpdateTime } from "@/backend/DefaultValues";
 import Button from "@/components/Button/Button";
 import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
@@ -34,7 +33,7 @@ export default function UserDashboardView(props: DashboardViewProps){
     }, [reloadTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadUsers(prev => !prev), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadUsers(prev => !prev), props.defaultValues.viewUpdateTime);
         return () => clearInterval(interval);
     }, []);
 

@@ -1,9 +1,9 @@
 import { readdir, readFile, unlink, writeFile } from "fs/promises";
 import { GenerateRandomToken } from "./TokenHelper";
 import { getServerConfig } from "./ServerConfigHelper";
-import { DefaultSessionTimeoutHours } from "../DefaultValues";
 import { existsSync } from "fs";
 import { Session } from "../models/Session";
+import { getDefaultSessionTimeoutHours } from "../DefaultValues";
 
 export async function CreateSessionToken(username: string): Promise<string> {
     let token = GenerateRandomToken();
@@ -27,7 +27,7 @@ export async function CheckSessionToken(token: string): Promise<boolean> {
         let createdDate = new Date(d.created);
         let currentDate = new Date();
         let diff = (currentDate.getTime() - createdDate.getTime()) / (1000 * 60 * 60);
-        return diff <= ((await getServerConfig()).sessionTimeoutHours ?? DefaultSessionTimeoutHours);
+        return diff <= ((await getServerConfig()).sessionTimeoutHours ?? getDefaultSessionTimeoutHours());
     } catch {
         return false;
     }

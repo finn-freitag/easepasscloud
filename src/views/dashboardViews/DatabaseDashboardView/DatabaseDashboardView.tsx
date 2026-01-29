@@ -9,7 +9,6 @@ import generalstyles from "@/components/GeneralStyles.module.scss";
 import Overlay from "@/components/Overlay/Overlay";
 import InputField from "@/components/InputField/InputField";
 import InputSwitch from "@/components/InputSwitch/InputSwitch";
-import { DefaultAccessTokenExpiryDays, DefaultViewUpdateTime } from "@/backend/DefaultValues";
 
 export function DatabaseDashboardView(props: DashboardViewProps) {
     const [databases, setDatabases] = useState<Database[]>([]);
@@ -41,7 +40,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
     },[reloadDBTrigger]);
 
     useEffect(()=>{
-        const interval = setInterval(()=>reloadDatabases(prev => !prev), DefaultViewUpdateTime);
+        const interval = setInterval(()=>reloadDatabases(prev => !prev), props.defaultValues.viewUpdateTime);
         return () => clearInterval(interval);
     }, []);
 
@@ -90,11 +89,11 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                 if (data.success) {
                     props.user.databaseIDs.push(data.databaseID);
                     if(createAccessToken){
-                        createDBAccessToken(data.databaseID, new Date(Date.now() + DefaultAccessTokenExpiryDays*24*60*60*1000))
+                        createDBAccessToken(data.databaseID, new Date(Date.now() + props.defaultValues.accessTokenExpiryDays*24*60*60*1000))
                         .then(success=>{
                             if(success) {
                                 reloadDatabases(!reloadDBTrigger);
-                                props.setInfoMessage('Database and access token created successfully. (Expiry: ' + DefaultAccessTokenExpiryDays + ' days)');
+                                props.setInfoMessage('Database and access token created successfully. (Expiry: ' + props.defaultValues.accessTokenExpiryDays + ' days)');
                             } else
                                 props.setInfoMessage('Database uploaded but failed to create access token.');
                         });
@@ -221,7 +220,7 @@ export function DatabaseDashboardView(props: DashboardViewProps) {
                             value={isLockable}
                             onChange={setIsLockable} />
                         <InputSwitch
-                            caption={"Create access token (" + DefaultAccessTokenExpiryDays + " days)"}
+                            caption={"Create access token (" + props.defaultValues.accessTokenExpiryDays + " days)"}
                             value={createAccessToken}
                             onChange={setCreateAccessToken} />
                         <Button

@@ -3,7 +3,7 @@ import { Database } from "../models/Database";
 import { GetAllUsers } from "./UserHelpers";
 import { createReadStream, ReadStream } from "fs";
 import { getServerConfig } from "./ServerConfigHelper";
-import { DefaultAutoUnlockTimeoutMinutes } from "../DefaultValues";
+import { getDefaultAutoUnlockTimeoutMinutes } from "../DefaultValues";
 
 export async function GetAllDatabases(): Promise<Database[]> {
     let files = await readdir("./data/databasemetadata/");
@@ -49,7 +49,7 @@ export function WriteDatabase(databaseID: string, data: Uint8Array<ArrayBuffer>)
 export async function AutoUnlockAll(){
     let databases = await GetAllDatabases();
     let serverConfig = await getServerConfig();
-    let lockMinutes = serverConfig.autoUnlockTimeoutMinutes || DefaultAutoUnlockTimeoutMinutes;
+    let lockMinutes = serverConfig.autoUnlockTimeoutMinutes || getDefaultAutoUnlockTimeoutMinutes();
     databases.forEach(db => {
         if(db.locked){
             let lastLock = db.lastLocked ? new Date(db.lastLocked) : new Date();

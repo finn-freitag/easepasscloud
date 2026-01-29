@@ -25,7 +25,7 @@ export default function LoginView(props: ViewProps) {
         .then(r=>r.json())
         .then(data => {
             if(data.success) {
-                props.onNavigateBack("dashboard", {user: data.user, sessionToken: data.sessionToken, setInfoMessage: props.setInfoMessage} as DashboardViewProps);
+                props.onNavigateBack("dashboard", {user: data.user, sessionToken: data.sessionToken, setInfoMessage: props.setInfoMessage, defaultValues: data.defaultValues} as DashboardViewProps);
             } else {
                 props.setInfoMessage("Login failed. Please check your credentials.");
             }
@@ -47,7 +47,7 @@ export default function LoginView(props: ViewProps) {
         .then(r=>r.json())
         .then(data => {
             if(data.success) {
-                props.onNavigateBack("dashboard", {user: data.user, sessionToken: data.sessionToken, setInfoMessage: props.setInfoMessage} as DashboardViewProps);
+                props.onNavigateBack("dashboard", {user: data.user, sessionToken: data.sessionToken, setInfoMessage: props.setInfoMessage, defaultValues: data.defaultValues} as DashboardViewProps);
             } else {
                 props.setInfoMessage("Username already exists. Please choose another one.");
             }

@@ -79,13 +79,13 @@ export default function DashboardView(props: ViewProps) {
                         <h2>Welcome, {dashboardViewProps?.user.username}!</h2>
                         <p>Select an option from the menu to get started.</p>
                     </div>,
-                    "databases": <DatabaseDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
-                    "accessTokens": <AccessTokenDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
-                    "easePassConfig": <EPConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
-                    "profile": <ProfileDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
-                    "users": <UserDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
-                    "sessions": <SessionDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
-                    "server": <ServerConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} />,
+                    "databases": <DatabaseDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
+                    "accessTokens": <AccessTokenDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
+                    "easePassConfig": <EPConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
+                    "profile": <ProfileDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
+                    "users": <UserDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
+                    "sessions": <SessionDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
+                    "server": <ServerConfigDashboardView sessionToken={dashboardViewProps?.sessionToken!} setInfoMessage={props.setInfoMessage} user={dashboardViewProps?.user!} defaultValues={dashboardViewProps?.defaultValues!} />,
                 }[currentDashboardView]}
             </div>}
         </div>
