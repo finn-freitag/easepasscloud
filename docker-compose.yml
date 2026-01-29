@@ -1,0 +1,19 @@
+services:
+    easepasscloud:
+        image: ghcr.io/finn-freitag/easepasscloud:latest
+        ports:
+            - "80:80"
+        restart:
+            unless-stopped
+        volumes:
+            - ./easepasscloud:/app/data
+
+    cron:
+        image: ghcr.io/finn-freitag/http-cron:latest
+        environment:
+            CRON_JOB_1_SCHEDULE: "*/10 * * * *"
+            CRON_JOB_1_URL: "http://easepasscloud:80/api/cron"
+        depends_on:
+            - easepasscloud
+        restart:
+            unless-stopped
