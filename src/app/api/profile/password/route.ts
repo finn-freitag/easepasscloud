@@ -4,6 +4,8 @@ import { GetUserByUsername, SaveUser } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/profile/password");
+
     let { oldPassword, newPassword, sessionToken, username } = await req.json();
 
     if(!oldPassword || !newPassword || !sessionToken || !username || newPassword.length === 0)

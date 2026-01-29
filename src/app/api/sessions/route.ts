@@ -3,6 +3,8 @@ import { GetUserByUsername } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/sessions");
+
     let sessionToken = (await req.json()).sessionToken;
 
     if(!sessionToken)

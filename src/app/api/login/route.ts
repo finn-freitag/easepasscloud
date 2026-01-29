@@ -3,6 +3,8 @@ import { LoginUser } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/login");
+
     let body: {
         username: string;
         password: string;

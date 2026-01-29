@@ -4,6 +4,8 @@ import { ReadStream } from "fs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest){
+    console.log("get /pluginapi/database");
+
     let accesstokenStr = req.headers.get("accesstoken");
     if(!accesstokenStr)
         return NextResponse.json({success:false, message:"No access token provided."}, {status:401});

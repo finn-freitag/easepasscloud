@@ -4,6 +4,8 @@ import { GetUserByUsername } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/database");
+
     let body = await req.json();
     let sessionToken = body.sessionToken;
 

@@ -3,6 +3,8 @@ import { GetUserByUsername, UpdateUsername } from "@/backend/helper/UserHelpers"
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/profile/username");
+
     let body = await req.json();
     let username = body.username;
     let newUsername = body.newUsername;

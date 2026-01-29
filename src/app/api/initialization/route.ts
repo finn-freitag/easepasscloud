@@ -8,6 +8,8 @@ import { mkdir, writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
     
 export async function GET(req: NextRequest){
+    console.log("get /api/initialization");
+
     let initialized = await isServerInitialized();
     let serverconfig: ServerConfig | null = null;
     if(initialized)
@@ -16,6 +18,8 @@ export async function GET(req: NextRequest){
 }
 
 export async function POST(req: NextRequest){
+    console.log("post /api/initialization");
+
     if(await isServerInitialized())
         return NextResponse.json({ success: false, message: "Server is already initialized." }, { status: 400 });
 

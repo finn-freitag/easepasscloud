@@ -5,6 +5,8 @@ import { AccessToken } from "@/backend/models/AccessToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/accesstokens/delete");
+
     let body: { accessToken: AccessToken, sessionToken: string } = await req.json();
 
     if(!body.accessToken || !body.sessionToken)

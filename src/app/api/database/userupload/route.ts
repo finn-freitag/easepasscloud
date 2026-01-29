@@ -7,6 +7,8 @@ import { writeFile } from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/database/userupload");
+
     const formData = await req.formData();
 
     const token = formData.get('sessionToken');

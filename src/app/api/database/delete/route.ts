@@ -6,6 +6,8 @@ import { unlink } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/database/delete");
+
     let body = await req.json() as { databaseId: string, sessionToken: string };
 
     if(!body.databaseId || !body.sessionToken)

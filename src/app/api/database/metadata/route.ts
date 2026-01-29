@@ -5,6 +5,8 @@ import { Database } from "@/backend/models/Database";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/database/metadata");
+
     let body = (await req.json()) as {database: Database, sessionToken: string};
     
     if(!(await CheckSessionToken(body.sessionToken)))

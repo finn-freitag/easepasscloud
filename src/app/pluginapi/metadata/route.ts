@@ -3,6 +3,8 @@ import { GetDatabase } from "@/backend/helper/DatabaseHelper";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest){
+    console.log("get /pluginapi/metadata");
+
     let accesstokenStr = req.headers.get("accesstoken");
     if(!accesstokenStr)
         return NextResponse.json({success:false, message:"No access token provided."}, {status:401});

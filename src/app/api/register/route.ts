@@ -4,6 +4,8 @@ import { RegisterUser } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/register");
+
     let serverconfig = await getServerConfig();
     if(!serverconfig.publicInstance)
         return NextResponse.json({ success: false, message: "Instance is not public." }, { status: 403 });

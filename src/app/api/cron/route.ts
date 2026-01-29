@@ -4,6 +4,8 @@ import { RemoveAllExpiredSessionTokens } from "@/backend/helper/SessionHelper";
 import { NextRequest, NextResponse } from "next/server";
 
 export function GET(req: NextRequest){
+    console.log("get /api/cron");
+
     RemoveAllExpiredSessionTokens();
     RemoveExpiredAccessTokens();
     AutoUnlockAll();

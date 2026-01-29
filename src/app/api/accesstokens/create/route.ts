@@ -4,6 +4,8 @@ import { GetUserByUsername } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/accesstokens/create");
+
     let body: {
         username: string;
         databaseID: string;

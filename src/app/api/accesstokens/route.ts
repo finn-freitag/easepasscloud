@@ -6,6 +6,8 @@ import { AccessToken } from "@/backend/models/AccessToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/accesstokens");
+
     let body = await req.json();
     let sessionToken = body.sessionToken;
 

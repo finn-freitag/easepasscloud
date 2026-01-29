@@ -5,6 +5,8 @@ import { User } from "@/backend/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/users/create");
+
     let body = await req.json();
     let sessionToken = body.sessionToken;
     let username = body.username;

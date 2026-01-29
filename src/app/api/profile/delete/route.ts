@@ -1,8 +1,10 @@
 import { CheckSessionToken, GetSessionInfo } from "@/backend/helper/SessionHelper";
-import { DeleteUser, GetUserByUsername, UpdateUsername } from "@/backend/helper/UserHelpers";
+import { DeleteUser, GetUserByUsername } from "@/backend/helper/UserHelpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    console.log("post /api/profile/delete");
+
     let body = await req.json();
     let username = body.username;
     let sessionToken = body.sessionToken;

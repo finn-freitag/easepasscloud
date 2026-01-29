@@ -3,6 +3,8 @@ import { GetDatabase, SaveDatabase } from "@/backend/helper/DatabaseHelper";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest){
+    console.log("post /api/userLock");
+
     let accesstokenStr = req.headers.get("accesstoken");
     let lockstatus = req.headers.get("lockstatus");
 

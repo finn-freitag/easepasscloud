@@ -4,6 +4,8 @@ import { GetAllUsers, GetUserByUsername, SaveAllUsers } from "@/backend/helper/U
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest){
+    console.log("post /api/users/edit");
+
     const body = await req.json();
     const {sessionToken, username, newUsername, password, admin} = body;
 
